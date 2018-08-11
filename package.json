@@ -1,0 +1,24 @@
+{
+  "name": "restaurant",
+  "version": "1.0.0",
+  "description": "IFE2018 Day 42-53 Project Restaurant",
+  "main": "./scripts/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/06rx07/Restaurant.git"
+  },
+  "author": "rx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/06rx07/Restaurant/issues"
+  },
+  "homepage": "https://github.com/06rx07/Restaurant#readme",
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.0",
+    "typescript": "^2.7.2",
+    "webpack": "^4.16.5"
+  }
+}
