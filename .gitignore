@@ -33,3 +33,4 @@ Temporary Items
 !.vscode/extensions.json
 
 node_modules/*
+npm-debug.log
