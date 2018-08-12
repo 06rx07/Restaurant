@@ -12,11 +12,19 @@ export class RestaurantModel {
     public cash: number;
     public seats: number;
     public staff: StaffModel[];
+    private static instance: RestaurantModel = null;
 
-    constructor(restaurant: IRestaurant) {
+    private constructor(restaurant: IRestaurant) {
         this.cash = restaurant.cash;
         this.seats = restaurant.seats;
         this.staff = restaurant.staff;
+    }
+
+    public static getInstance(restaurant: IRestaurant): RestaurantModel {
+        if (!this.instance) {
+            this.instance = new RestaurantModel(restaurant);
+        }
+        return this.instance;
     }
 
     public hire(person: WaiterModel | CookModel): void {

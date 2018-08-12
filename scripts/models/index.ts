@@ -5,7 +5,7 @@ import { RestaurantModel } from './restaurant.model';
 import { StaffModel } from './staff.model';
 import { WaiterModel } from './waiter.model';
 
-const ifeRestaurant = new RestaurantModel({
+const ifeRestaurant = RestaurantModel.getInstance({
     cash: 1000000,
     seats: 20,
     staff: []
@@ -18,3 +18,9 @@ console.log(ifeRestaurant.staff.length, newCook);
 
 ifeRestaurant.fire(newCook);
 console.log(ifeRestaurant.staff);
+
+let ifeRestaurant2 = RestaurantModel.getInstance({
+    cash: 1000000,
+    seats: 20,
+    staff: []
+});
