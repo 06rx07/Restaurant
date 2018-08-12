@@ -1,6 +1,7 @@
 import { StaffModel } from './staff.model';
 import { WaiterModel } from './waiter.model';
 import { CookModel } from './cook.model';
+import { CustomerModel } from './customer.model';
 
 interface IRestaurant {
     cash: number;
@@ -12,6 +13,7 @@ export class RestaurantModel {
     public cash: number;
     public seats: number;
     public staff: StaffModel[];
+    public queue: CustomerModel[] = [];
     private static instance: RestaurantModel = null;
 
     private constructor(restaurant: IRestaurant) {
@@ -38,5 +40,23 @@ export class RestaurantModel {
             let fired = this.staff.splice(index, 1);
             fired = null;
         }
+    }
+
+    public assignCustomer(customer: CustomerModel): void {
+        this.queue.push(customer);
+    }
+
+    public assignSeats(): CustomerModel {
+        if (this.queue.length && this.seats > 0) {
+            this.seats -= 1;
+            return this.queue[0];
+        }
+        return null;
+    }
+
+    public resetSeats(): void {
+        this.seats += 1;
+        let assigned = this.queue.splice(0, 1);
+        assigned = null;
     }
 }
