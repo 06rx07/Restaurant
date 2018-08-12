@@ -3,7 +3,8 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     entry: {
-        models: './scripts/models/index.ts'
+        models: './scripts/models/index.ts',
+        app: './scripts/index.ts'
     },
     output: {
         path: _resolve('dist'),
