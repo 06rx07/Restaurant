@@ -16,7 +16,7 @@ export class RestaurantModel {
 
     private constructor(restaurant: IRestaurant) {
         this.cash = restaurant.cash;
-        this.seats = restaurant.seats;
+        this.seats = 1;
         this.staff = restaurant.staff;
     }
 

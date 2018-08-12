@@ -1,3 +1,9 @@
+export interface IDish {
+    name: string;
+    cost: number;
+    price: number;
+}
+
 export class DishModel {
     public name: string;
     public cost: number;

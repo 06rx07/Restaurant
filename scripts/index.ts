@@ -1,22 +1,20 @@
 import { RestaurantModel } from './models/restaurant.model';
 import { CookModel } from './models/cook.model';
+import { WaiterModel } from './models/waiter.model';
+import { MenuModel } from './models/menu.model';
 
+// init restaurant settings
 const ifeRestaurant = RestaurantModel.getInstance({
-    cash: 1000000,
+    cash: 100000,
     seats: 20,
     staff: []
 });
 
-const newCook = CookModel.getInstance("Tony", 10000);
+const newCook = CookModel.getInstance('Bob', 4000);
 ifeRestaurant.hire(newCook);
 
-console.log(ifeRestaurant.staff.length, newCook);
+const newWaiter = WaiterModel.getInstance('Ali', 3000);
+ifeRestaurant.hire(newWaiter);
 
-ifeRestaurant.fire(newCook);
-console.log(ifeRestaurant.staff);
-
-let ifeRestaurant2 = RestaurantModel.getInstance({
-    cash: 1000000,
-    seats: 20,
-    staff: []
-});
+const menu = MenuModel.getInstance();
+console.log(menu);
