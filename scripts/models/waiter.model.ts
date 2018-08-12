@@ -4,9 +4,17 @@ export class WaiterModel extends StaffModel {
     public id: number = null;
     public name: string;
     public salary: number;
+    private static instance: WaiterModel = null;
 
-    constructor(name:string, salary:number) {
+    private constructor(name:string, salary:number) {
         super(name, salary);
+    }
+
+    public static getInstance(name:string, salary:number): WaiterModel {
+        if (!this.instance) {
+            this.instance = new WaiterModel(name, salary);
+        }
+        return this.instance;
     }
 
     public doneTask(task:any): void {
