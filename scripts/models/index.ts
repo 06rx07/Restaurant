@@ -14,7 +14,7 @@ const ifeRestaurant = new RestaurantModel({
 const newCook = new CookModel("Tony", 10000);
 ifeRestaurant.hire(newCook);
 
-console.log(ifeRestaurant.staff);
+console.log(ifeRestaurant.staff.length, newCook);
 
 ifeRestaurant.fire(newCook);
 console.log(ifeRestaurant.staff);

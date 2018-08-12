@@ -106,7 +106,7 @@ eval("\nvar __extends = (this && this.__extends) || (function () {\n    var exte
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nexports.__esModule = true;\nvar cook_model_1 = __webpack_require__(/*! ./cook.model */ \"./scripts/models/cook.model.ts\");\nvar restaurant_model_1 = __webpack_require__(/*! ./restaurant.model */ \"./scripts/models/restaurant.model.ts\");\nvar ifeRestaurant = new restaurant_model_1.RestaurantModel({\n    cash: 1000000,\n    seats: 20,\n    staff: []\n});\nvar newCook = new cook_model_1.CookModel(\"Tony\", 10000);\nifeRestaurant.hire(newCook);\nconsole.log(ifeRestaurant.staff);\nifeRestaurant.fire(newCook);\nconsole.log(ifeRestaurant.staff);\n\n\n//# sourceURL=webpack:///./scripts/models/index.ts?");
+eval("\nexports.__esModule = true;\nvar cook_model_1 = __webpack_require__(/*! ./cook.model */ \"./scripts/models/cook.model.ts\");\nvar restaurant_model_1 = __webpack_require__(/*! ./restaurant.model */ \"./scripts/models/restaurant.model.ts\");\nvar ifeRestaurant = new restaurant_model_1.RestaurantModel({\n    cash: 1000000,\n    seats: 20,\n    staff: []\n});\nvar newCook = new cook_model_1.CookModel(\"Tony\", 10000);\nifeRestaurant.hire(newCook);\nconsole.log(ifeRestaurant.staff.length, newCook);\nifeRestaurant.fire(newCook);\nconsole.log(ifeRestaurant.staff);\n\n\n//# sourceURL=webpack:///./scripts/models/index.ts?");
 
 /***/ }),
 
