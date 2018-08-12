@@ -81,10 +81,22 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./scripts/models/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./scripts/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./scripts/index.ts":
+/*!**************************!*\
+  !*** ./scripts/index.ts ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nexports.__esModule = true;\nvar restaurant_model_1 = __webpack_require__(/*! ./models/restaurant.model */ \"./scripts/models/restaurant.model.ts\");\nvar cook_model_1 = __webpack_require__(/*! ./models/cook.model */ \"./scripts/models/cook.model.ts\");\nvar ifeRestaurant = restaurant_model_1.RestaurantModel.getInstance({\n    cash: 1000000,\n    seats: 20,\n    staff: []\n});\nvar newCook = cook_model_1.CookModel.getInstance(\"Tony\", 10000);\nifeRestaurant.hire(newCook);\nconsole.log(ifeRestaurant.staff.length, newCook);\nifeRestaurant.fire(newCook);\nconsole.log(ifeRestaurant.staff);\nvar ifeRestaurant2 = restaurant_model_1.RestaurantModel.getInstance({\n    cash: 1000000,\n    seats: 20,\n    staff: []\n});\n\n\n//# sourceURL=webpack:///./scripts/index.ts?");
+
+/***/ }),
 
 /***/ "./scripts/models/cook.model.ts":
 /*!**************************************!*\
@@ -95,42 +107,6 @@
 
 "use strict";
 eval("\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nexports.__esModule = true;\nvar staff_model_1 = __webpack_require__(/*! ./staff.model */ \"./scripts/models/staff.model.ts\");\nvar CookModel = (function (_super) {\n    __extends(CookModel, _super);\n    function CookModel(name, salary) {\n        var _this = _super.call(this, name, salary) || this;\n        _this.id = null;\n        return _this;\n    }\n    CookModel.getInstance = function (name, salary) {\n        if (!this.instance) {\n            this.instance = new CookModel(name, salary);\n        }\n        return this.instance;\n    };\n    CookModel.prototype.doneTask = function (task) {\n        this.cook(task);\n    };\n    CookModel.prototype.cook = function (dish) {\n    };\n    CookModel.instance = null;\n    return CookModel;\n}(staff_model_1.StaffModel));\nexports.CookModel = CookModel;\n\n\n//# sourceURL=webpack:///./scripts/models/cook.model.ts?");
-
-/***/ }),
-
-/***/ "./scripts/models/customer.model.ts":
-/*!******************************************!*\
-  !*** ./scripts/models/customer.model.ts ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\nexports.__esModule = true;\nvar CustomerModel = (function () {\n    function CustomerModel() {\n    }\n    CustomerModel.prototype.order = function () {\n    };\n    CustomerModel.prototype.eat = function () {\n    };\n    return CustomerModel;\n}());\nexports.CustomerModel = CustomerModel;\n\n\n//# sourceURL=webpack:///./scripts/models/customer.model.ts?");
-
-/***/ }),
-
-/***/ "./scripts/models/dish.model.ts":
-/*!**************************************!*\
-  !*** ./scripts/models/dish.model.ts ***!
-  \**************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\nexports.__esModule = true;\nvar DishModel = (function () {\n    function DishModel(name, cost, price) {\n        this.name = name;\n        this.cost = cost;\n        this.price = price;\n    }\n    return DishModel;\n}());\nexports.DishModel = DishModel;\n\n\n//# sourceURL=webpack:///./scripts/models/dish.model.ts?");
-
-/***/ }),
-
-/***/ "./scripts/models/index.ts":
-/*!*********************************!*\
-  !*** ./scripts/models/index.ts ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\nexports.__esModule = true;\n__webpack_require__(/*! ./cook.model */ \"./scripts/models/cook.model.ts\");\n__webpack_require__(/*! ./customer.model */ \"./scripts/models/customer.model.ts\");\n__webpack_require__(/*! ./dish.model */ \"./scripts/models/dish.model.ts\");\n__webpack_require__(/*! ./restaurant.model */ \"./scripts/models/restaurant.model.ts\");\n__webpack_require__(/*! ./staff.model */ \"./scripts/models/staff.model.ts\");\n__webpack_require__(/*! ./waiter.model */ \"./scripts/models/waiter.model.ts\");\n\n\n//# sourceURL=webpack:///./scripts/models/index.ts?");
 
 /***/ }),
 
@@ -155,18 +131,6 @@ eval("\nexports.__esModule = true;\nvar RestaurantModel = (function () {\n    fu
 
 "use strict";
 eval("\nexports.__esModule = true;\nvar StaffModel = (function () {\n    function StaffModel(name, salary) {\n        this.id = null;\n        this.name = name;\n        this.salary = salary;\n    }\n    StaffModel.prototype.doneTask = function (task) {\n    };\n    return StaffModel;\n}());\nexports.StaffModel = StaffModel;\n\n\n//# sourceURL=webpack:///./scripts/models/staff.model.ts?");
-
-/***/ }),
-
-/***/ "./scripts/models/waiter.model.ts":
-/*!****************************************!*\
-  !*** ./scripts/models/waiter.model.ts ***!
-  \****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\nvar __extends = (this && this.__extends) || (function () {\n    var extendStatics = Object.setPrototypeOf ||\n        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||\n        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };\n    return function (d, b) {\n        extendStatics(d, b);\n        function __() { this.constructor = d; }\n        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());\n    };\n})();\nexports.__esModule = true;\nvar staff_model_1 = __webpack_require__(/*! ./staff.model */ \"./scripts/models/staff.model.ts\");\nvar WaiterModel = (function (_super) {\n    __extends(WaiterModel, _super);\n    function WaiterModel(name, salary) {\n        var _this = _super.call(this, name, salary) || this;\n        _this.id = null;\n        return _this;\n    }\n    WaiterModel.getInstance = function (name, salary) {\n        if (!this.instance) {\n            this.instance = new WaiterModel(name, salary);\n        }\n        return this.instance;\n    };\n    WaiterModel.prototype.doneTask = function (task) {\n        (Array.isArray(task)) ? this.order(task) : this.serve(task);\n    };\n    WaiterModel.prototype.order = function (dishes) {\n    };\n    WaiterModel.prototype.serve = function (table) {\n    };\n    WaiterModel.instance = null;\n    return WaiterModel;\n}(staff_model_1.StaffModel));\nexports.WaiterModel = WaiterModel;\n\n\n//# sourceURL=webpack:///./scripts/models/waiter.model.ts?");
 
 /***/ })
 
