@@ -19,16 +19,16 @@ export class WaiterModel extends StaffModel {
     }
 
     public doneTask(task: any): void {
-        // (Array.isArray(task)) ? this.order(task) : this.serve(task);
+        (Array.isArray(task)) ? this.order(task) : this.serve(task);
     }
 
-    public order(menuItem: IMenuItem): IMenuItem {
-        console.info(`${this.name} ordered ${menuItem.name} for customer`);
+    public order(menuItems: IMenuItem[]): IMenuItem[] {
+        console.log('ordered', menuItems);
+        return menuItems;
+    }
+
+    public serve(menuItem: IMenuItem): IMenuItem {
+        console.log('served ' + menuItem.name);
         return menuItem;
-    }
-
-    public serve(menuItem: IMenuItem): boolean {
-        console.info(`${this.name} serve ${menuItem.name} to customer `);
-        return true;
     }
 }

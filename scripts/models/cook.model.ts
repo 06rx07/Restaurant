@@ -1,3 +1,4 @@
+import { config } from '../settings.const';
 import { StaffModel } from './staff.model';
 import { IMenuItem } from './menu.model';
 
@@ -22,9 +23,11 @@ export class CookModel extends StaffModel {
         this.cook(task);
     }
 
-    public cook(menuItem: IMenuItem): boolean {
-        const cookTime = Math.round(Math.random() * menuItem.price);
-        console.info(`${this.name} complete cooking ${menuItem.name} in ${cookTime} minutes.`);
-        return true;
+    public cook(menuItem: IMenuItem): Promise<IMenuItem> {
+        return new Promise((resolve, reject) => {
+            setTimeout(()=>{
+                resolve(menuItem);
+            }, menuItem.cookTime * config.timeUnit);
+        });
     }
 }

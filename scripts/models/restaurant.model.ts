@@ -59,4 +59,8 @@ export class RestaurantModel {
         let assigned = this.queue.splice(0, 1);
         assigned = null;
     }
+
+    public receipt(payment: number): void {
+        this.cash += payment;
+    }
 }

@@ -4,6 +4,7 @@ import { dishes } from '../../data/dishes.const';
 export interface IMenuItem {
     name: string;
     price: number;
+    cookTime: number;
 }
 
 export class MenuModel {
@@ -26,7 +27,8 @@ export class MenuModel {
     public getMenuItem(dish: IDish): IMenuItem {
         return {
             name: dish.name,
-            price: dish.price
+            price: dish.price,
+            cookTime: Math.random() * 10
         }
     }
 }

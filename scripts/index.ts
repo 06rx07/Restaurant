@@ -4,11 +4,6 @@ import { WaiterModel } from './models/waiter.model';
 import { MenuModel, IMenuItem } from './models/menu.model';
 import { CustomerModel } from './models/customer.model';
 
-const randomDish = (menus: IMenuItem[]) => {
-    const index = Math.floor(Math.random() * menus.length);
-    return menus[index];
-}
-
 // init restaurant settings
 const ifeRestaurant = RestaurantModel.getInstance({
     cash: 100000,
@@ -29,22 +24,23 @@ console.info(`ifeRestaurant has ${ifeRestaurant.staff.length} staff: One Cook: $
 console.log('\n');
 
 // mock customer queue
-for (let i = 0; i < 5; i++) {
-    ifeRestaurant.assignCustomer(new CustomerModel());
-}
-
-for (let i = 0; i < 5; i++) {
-    console.info(`ifeRestaurant has ${ifeRestaurant.queue.length} customers waiting`);
-    const assigned = ifeRestaurant.assignSeats();
-    if (assigned) {
-        console.info(`one customer assigned seat`);
-        const ordered = assigned.order(randomDish(menu.menus));
-        newWaiter.order(ordered);
-        newCook.cook(ordered);
-        newWaiter.serve(ordered);
-        assigned.eat(ordered);
-        console.info(`customer complete eating, reseting seats.`);
-        ifeRestaurant.resetSeats();
-        console.log('\n');
-    }
-}
+ifeRestaurant.assignCustomer(new CustomerModel());
+const customer = ifeRestaurant.assignSeats();
+customer.order()
+    .then(newWaiter.order)
+    .then((menuIems) => {
+        const dishWorkFlow = Promise.resolve(true);
+        for (const menuItem of menuIems) {
+            dishWorkFlow.then(() => newCook.cook(menuItem))
+                .then(newWaiter.serve)
+                .then(customer.newDishServed);
+        }
+        return dishWorkFlow;
+    });
+    // .then(() => {
+    //     return customer.served;
+    // })
+    // .then(() => {
+    //     ifeRestaurant.receipt(customer.pay());
+    //     ifeRestaurant.resetSeats();
+    // });
