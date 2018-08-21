@@ -4,6 +4,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: {
+        services: './scripts/services/index.ts',
         models: './scripts/models/index.ts',
         app: './scripts/index.ts'
     },
