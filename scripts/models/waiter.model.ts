@@ -22,13 +22,21 @@ export class WaiterModel extends StaffModel {
         (Array.isArray(task)) ? this.order(task) : this.serve(task);
     }
 
-    public order(menuItems: IMenuItem[]): IMenuItem[] {
-        console.log('ordered', menuItems);
-        return menuItems;
+    public order(menuItems: IMenuItem[]): Promise<IMenuItem[]> {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('ordered', menuItems);
+                resolve(menuItems);
+            }, 500);
+        });
     }
 
-    public serve(menuItem: IMenuItem): IMenuItem {
-        console.log('served ' + menuItem.name);
-        return menuItem;
+    public serve(menuItem: IMenuItem): Promise<IMenuItem> {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                console.log('served ' + menuItem.name);
+                resolve(menuItem);
+            }, 500);
+        });
     }
 }

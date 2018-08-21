@@ -5,7 +5,7 @@ import { IMenuItem } from "./menu.model";
 export class CustomerModel {
     private orderTime = config.orderTime * config.timeUnit;
     private ordered: IMenuItem[] = [];
-    public served: Promise<boolean> = new Promise((resolve, reject) => resolve(true));
+    public served: Promise<any> = Promise.resolve(null);
 
     public order(): Promise<IMenuItem[]> {
         return new Promise((resolve, reject) => {
@@ -17,18 +17,17 @@ export class CustomerModel {
     }
 
     public newDishServed(menuItem: IMenuItem): boolean {
-        console.log(this);
-        this.served.then(() => this.eat(menuItem));
+        this.eat(menuItem);
         return true;
     }
 
-    public eat(menuItem: IMenuItem): Promise<boolean> {
-        return new Promise((resolve, reject) => {
+    public eat(menuItem: IMenuItem): void {
+        this.served = this.served.then(() => new Promise((resolve, reject) => {
             setTimeout(() => {
-                console.log('eat up' + menuItem.name);
-                resolve(true);
+                console.log('eat up ' + menuItem.name);
+                resolve(menuItem);
             }, config.eatTime * config.timeUnit);
-        });
+        }));
     }
 
     public pay(): number {
@@ -38,6 +37,7 @@ export class CustomerModel {
     private getDishes(): IMenuItem[] {
         const selected = [];
         let dishNumber = Math.floor(Math.random() * dishes.length);
+        if (dishNumber === 0) { dishNumber = 1; }
         while (dishNumber > 0) {
             const dishIndex = Math.floor(Math.random() * dishes.length);
             if (selected.indexOf(dishes[dishIndex]) > -1) {

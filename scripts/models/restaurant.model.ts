@@ -62,5 +62,6 @@ export class RestaurantModel {
 
     public receipt(payment: number): void {
         this.cash += payment;
+        console.log('balance: ' + this.cash);
     }
 }
