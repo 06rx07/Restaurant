@@ -20,27 +20,14 @@ const newWaiter = WaiterModel.getInstance('Ali', 3000);
 ifeRestaurant.hire(newWaiter);
 
 const menu = MenuModel.getInstance();
-const getWorkflowService = new GetWorkflowService(newCook, newWaiter);
 const drawWorkflowService = new DrawWorkflowService();
+const getWorkflowService = new GetWorkflowService(newCook, newWaiter, ifeRestaurant, drawWorkflowService);
+
 console.log('init done');
-console.info(`Menu: ${menu.menus.map(menu => menu.name + ' $' + menu.price)}`);
 console.info(`ifeRestaurant has ${ifeRestaurant.staff.length} staff: One Cook: ${newCook.name}, One Waiter: ${newWaiter.name}`);
 console.log('\n');
 
 // mock customer queue
 ifeRestaurant.assignCustomer(new CustomerModel());
-const customer = ifeRestaurant.assignSeats();
-drawWorkflowService.placeCustomer();
-const order = customer.order()
-    .then(newWaiter.order)
-    .then((menuItems) => {
-        drawWorkflowService.displayMenuItems(menuItems);
-        return getWorkflowService.cookServe(menuItems, customer);
-    })
-    .then(() => customer.served)
-    .then(() => {
-        console.log('paid');
-        ifeRestaurant.receipt(customer.pay());
-        ifeRestaurant.resetSeats();
-    });
+getWorkflowService.completeFlow();
 

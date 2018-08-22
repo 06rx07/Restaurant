@@ -1,6 +1,7 @@
 import { IMenuItem } from "../models/menu.model";
 
 const canvas: any = document.querySelector('canvas#workflow');
+const balance: any = document.querySelector('p#balance');
 
 export class DrawWorkflowService {
     public config = {
@@ -25,10 +26,10 @@ export class DrawWorkflowService {
         this.context.font = this.config.font;
         this.context.fillStyle = this.config.textFillStyle;
         this.placeStaff(this.context, this.cookImgSrc, { x: 0, y: 0 });
-        this.placeStaff(this.context, this.waiterImgSrc, { x: 260, y: 20 });
+        this.placeStaff(this.context, this.waiterImgSrc, { x: 490, y: 20 });
     }
 
-    public placeStaff(context, src, position) {
+    public placeStaff(context: any, src: string, position: any) {
         const img = new Image();
         img.onload = () => {
             context.drawImage(img, position.x, position.y);
@@ -45,8 +46,12 @@ export class DrawWorkflowService {
     }
 
     public displayMenuItems(menuItems: IMenuItem[]) {
-        for(let i = 0; i < menuItems.length; i++){
+        for (let i = 0; i < menuItems.length; i++) {
             this.context.fillText(menuItems[i].name, 800, (250 + i * 16));
         }
+    }
+
+    public showBalance(cash: number) {
+        balance.innerHTML = '$ ' + cash;
     }
 }

@@ -39,4 +39,12 @@ export class WaiterModel extends StaffModel {
             }, 500);
         });
     }
+
+    public receipt(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(true);
+            }, 500);
+        });
+    }
 }
