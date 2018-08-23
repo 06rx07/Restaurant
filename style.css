@@ -1,0 +1,12 @@
+.display-wrapper {
+    display: flex;
+    max-width: 1024px;
+    justify-content: space-between;
+}
+.countdown {
+    color: #e6194b;
+    font-weight: bold;
+}
+.countdown.done {
+    color: #3cb44b;
+}
