@@ -12,7 +12,7 @@ export class GetWorkflowService {
     public drawService: DrawWorkflowService;
 
     constructor(
-        cook: CookModel, 
+        cook: CookModel,
         waiter: WaiterModel,
         restaurant: RestaurantModel,
         drawWorkFlowService: DrawWorkflowService,
@@ -21,14 +21,23 @@ export class GetWorkflowService {
         this.waiter = waiter;
         this.restaurant = restaurant;
         this.drawService = drawWorkFlowService;
+        this.drawService.showBalance(this.restaurant.cash);
     }
 
     public cookServe(menuItems: IMenuItem[], customer: CustomerModel): Promise<any> {
         let dishWorkFlow: Promise<any> = Promise.resolve(null);
         for (const menuItem of menuItems) {
             dishWorkFlow = dishWorkFlow.then(() => Promise.resolve(menuItem))
-                .then(this.cook.cook)
-                .then(this.waiter.serve)
+                .then((menuItem) => {
+                    this.drawService.showCountdown(menuItem, 'cook');
+                    return this.cook.cook(menuItem);
+                })
+                .then((menuItem) => {
+                    this.drawService.moveWaiter(true).then(() => {
+                        this.drawService.moveWaiter(false);
+                    });
+                    return this.waiter.serve(menuItem);
+                })
                 .then((menuItem) => customer.newDishServed(menuItem));
         }
         return dishWorkFlow;
@@ -36,7 +45,15 @@ export class GetWorkflowService {
 
     public waiterOrder(customer: CustomerModel): Promise<IMenuItem[]> {
         return customer.order()
-            .then(this.waiter.order);
+            .then((menuItems) => {
+                this.drawService.displayMenuItems(menuItems, 'customer');
+                this.drawService.moveWaiter(false);
+                return this.waiter.order(menuItems);
+            })
+            .then((menuItems) => {
+                this.drawService.displayMenuItems(menuItems, 'cook');
+                return menuItems;
+            });
     }
 
     public completePayment(customer: CustomerModel): Promise<boolean> {
@@ -45,6 +62,7 @@ export class GetWorkflowService {
                 this.restaurant.receipt(customer.pay());
                 this.drawService.showBalance(this.restaurant.cash);
                 this.restaurant.resetSeats();
+                this.drawService.clearDisplay();
                 return true;
             });
     }

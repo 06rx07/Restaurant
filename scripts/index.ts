@@ -28,6 +28,6 @@ console.info(`ifeRestaurant has ${ifeRestaurant.staff.length} staff: One Cook: $
 console.log('\n');
 
 // mock customer queue
-ifeRestaurant.assignCustomer(new CustomerModel());
+ifeRestaurant.assignCustomer(new CustomerModel(drawWorkflowService));
 getWorkflowService.completeFlow();
 

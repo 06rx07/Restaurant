@@ -1,11 +1,19 @@
 import { config } from '../settings.const';
 import { dishes } from '../../data/dishes.const';
 import { IMenuItem } from "./menu.model";
+import { DrawWorkflowService } from '../services/draw-workflow.service';
 
 export class CustomerModel {
     private orderTime = config.orderTime * config.timeUnit;
     private ordered: IMenuItem[] = [];
     public served: Promise<any> = Promise.resolve(null);
+    public drawService: DrawWorkflowService;
+
+    constructor(
+        drawService: DrawWorkflowService
+    ) {
+        this.drawService = drawService;
+    }
 
     public order(): Promise<IMenuItem[]> {
         return new Promise((resolve, reject) => {
@@ -22,9 +30,10 @@ export class CustomerModel {
     }
 
     public eat(menuItem: IMenuItem): void {
-        this.served = this.served.then(() => new Promise((resolve, reject) => {
+        this.served = this.served
+        .then(() => new Promise((resolve, reject) => {
+            this.drawService.showCountdown(menuItem, 'customer');
             setTimeout(() => {
-                console.log('eat up ' + menuItem.name);
                 resolve(menuItem);
             }, config.eatTime * config.timeUnit);
         }));
