@@ -5,6 +5,8 @@ import { CustomerModel } from "../models/customer.model";
 import { RestaurantModel } from "../models/restaurant.model";
 import { DrawWorkflowService } from "./draw-workflow.service";
 
+const queue = document.querySelector('p#queue');
+
 export class GetWorkflowService {
     public cook: CookModel;
     public waiter: WaiterModel;
@@ -32,12 +34,7 @@ export class GetWorkflowService {
                     this.drawService.showCountdown(menuItem, 'cook');
                     return this.cook.cook(menuItem);
                 })
-                .then((menuItem) => {
-                    this.drawService.moveWaiter(true).then(() => {
-                        this.drawService.moveWaiter(false);
-                    });
-                    return this.waiter.serve(menuItem);
-                })
+                .then(this.waiter.serve)
                 .then((menuItem) => customer.newDishServed(menuItem));
         }
         return dishWorkFlow;
@@ -69,6 +66,9 @@ export class GetWorkflowService {
 
     public completeFlow(): Promise<any> {
         const customer = this.restaurant.assignSeats();
+        if (this.restaurant.queue.length > 1) {
+            queue.innerHTML = (this.restaurant.queue.length - 1) + ' customer waiting.'
+        } else { queue.innerHTML = null; }
         this.drawService.placeCustomer();
         return this.waiterOrder(customer)
             .then((menuItems) => this.cookServe(menuItems, customer))

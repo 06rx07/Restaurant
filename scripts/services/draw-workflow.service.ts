@@ -107,13 +107,12 @@ export class DrawWorkflowService {
         return new Promise((resolve, reject) => {
             const startPos = (leftToRight) ? this.config.leftPos : this.config.rightPos;
             const endPos = (leftToRight) ? this.config.rightPos : this.config.leftPos;
-            const timeInterval = setInterval(() => {
-                this.context.clearRect(startPos.x, startPos.y, this.waiterImg.width, this.waiterImg.height);
-                startPos.x += (endPos.x - startPos.x) / 4;
-                this.placeStaff(this.context, this.waiterImg.src, startPos);
-            }, 100);
             setTimeout(() => {
-                clearInterval(timeInterval);
+                this.context.clearRect(startPos.x, startPos.y, this.waiterImg.width, this.waiterImg.height);
+            }, 250);
+            setTimeout(() => {
+                this.placeStaff(this.context, this.waiterImg.src, endPos);
+                resolve(true);
             }, 500);
         });
     }

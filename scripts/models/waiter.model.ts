@@ -34,12 +34,4 @@ export class WaiterModel extends StaffModel {
     public serve(menuItem: IMenuItem): IMenuItem {
         return menuItem;
     }
-
-    public receipt(): Promise<any>{
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(true);
-            }, 500);
-        });
-    }
 }

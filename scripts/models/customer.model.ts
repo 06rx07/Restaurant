@@ -31,12 +31,18 @@ export class CustomerModel {
 
     public eat(menuItem: IMenuItem): void {
         this.served = this.served
-        .then(() => new Promise((resolve, reject) => {
-            this.drawService.showCountdown(menuItem, 'customer');
-            setTimeout(() => {
-                resolve(menuItem);
-            }, config.eatTime * config.timeUnit);
-        }));
+            .then(() => this.drawService.moveWaiter(true))
+            .then(() => {
+                const isLastItem = this.ordered.lastIndexOf(menuItem) === this.ordered.length - 1;
+                if (!isLastItem) { this.drawService.moveWaiter(false); }
+                return true;
+            })
+            .then(() => new Promise((resolve, reject) => {
+                this.drawService.showCountdown(menuItem, 'customer');
+                setTimeout(() => {
+                    resolve(menuItem);
+                }, config.eatTime * config.timeUnit);
+            }));
     }
 
     public pay(): number {
