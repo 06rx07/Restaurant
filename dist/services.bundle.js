@@ -98,15 +98,15 @@ eval("\nexports.__esModule = true;\nvar canvas = document.querySelector('canvas#
 
 /***/ }),
 
-/***/ "./scripts/services/get-workflow.service.ts":
-/*!**************************************************!*\
-  !*** ./scripts/services/get-workflow.service.ts ***!
-  \**************************************************/
+/***/ "./scripts/services/event-handler.service.ts":
+/*!***************************************************!*\
+  !*** ./scripts/services/event-handler.service.ts ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nexports.__esModule = true;\nvar queue = document.querySelector('p#queue');\nvar GetWorkflowService = (function () {\n    function GetWorkflowService(cook, waiter, restaurant, drawWorkFlowService) {\n        this.cook = cook;\n        this.waiter = waiter;\n        this.restaurant = restaurant;\n        this.drawService = drawWorkFlowService;\n        this.drawService.showBalance(this.restaurant.cash);\n    }\n    GetWorkflowService.prototype.cookServe = function (menuItems, customer) {\n        var _this = this;\n        var dishWorkFlow = Promise.resolve(null);\n        var _loop_1 = function (menuItem) {\n            dishWorkFlow = dishWorkFlow.then(function () { return Promise.resolve(menuItem); })\n                .then(function (menuItem) {\n                _this.drawService.showCountdown(menuItem, 'cook');\n                return _this.cook.cook(menuItem);\n            })\n                .then(this_1.waiter.serve)\n                .then(function (menuItem) { return customer.newDishServed(menuItem); });\n        };\n        var this_1 = this;\n        for (var _i = 0, menuItems_1 = menuItems; _i < menuItems_1.length; _i++) {\n            var menuItem = menuItems_1[_i];\n            _loop_1(menuItem);\n        }\n        return dishWorkFlow;\n    };\n    GetWorkflowService.prototype.waiterOrder = function (customer) {\n        var _this = this;\n        return customer.order()\n            .then(function (menuItems) {\n            _this.drawService.displayMenuItems(menuItems, 'customer');\n            _this.drawService.moveWaiter(false);\n            return _this.waiter.order(menuItems);\n        })\n            .then(function (menuItems) {\n            _this.drawService.displayMenuItems(menuItems, 'cook');\n            return menuItems;\n        });\n    };\n    GetWorkflowService.prototype.completePayment = function (customer) {\n        var _this = this;\n        return customer.served\n            .then(function () {\n            _this.restaurant.receipt(customer.pay());\n            _this.drawService.showBalance(_this.restaurant.cash);\n            _this.restaurant.resetSeats();\n            _this.drawService.clearDisplay();\n            return true;\n        });\n    };\n    GetWorkflowService.prototype.completeFlow = function () {\n        var _this = this;\n        var customer = this.restaurant.assignSeats();\n        if (this.restaurant.queue.length > 1) {\n            queue.innerHTML = (this.restaurant.queue.length - 1) + ' customer waiting.';\n        }\n        else {\n            queue.innerHTML = null;\n        }\n        this.drawService.placeCustomer();\n        return this.waiterOrder(customer)\n            .then(function (menuItems) { return _this.cookServe(menuItems, customer); })\n            .then(function () { return _this.completePayment(customer); });\n    };\n    return GetWorkflowService;\n}());\nexports.GetWorkflowService = GetWorkflowService;\n\n\n//# sourceURL=webpack:///./scripts/services/get-workflow.service.ts?");
+eval("\nexports.__esModule = true;\nvar EventType;\n(function (EventType) {\n    EventType[EventType[\"CustomerIn\"] = 0] = \"CustomerIn\";\n    EventType[EventType[\"CustomerOut\"] = 1] = \"CustomerOut\";\n    EventType[EventType[\"NewOrder\"] = 2] = \"NewOrder\";\n    EventType[EventType[\"DishesToCook\"] = 3] = \"DishesToCook\";\n    EventType[EventType[\"DishesDone\"] = 4] = \"DishesDone\";\n    EventType[EventType[\"NewDishes\"] = 5] = \"NewDishes\";\n    EventType[EventType[\"EatUp\"] = 6] = \"EatUp\";\n    EventType[EventType[\"Receipt\"] = 7] = \"Receipt\";\n})(EventType = exports.EventType || (exports.EventType = {}));\nvar EventHandlerService = (function () {\n    function EventHandlerService() {\n        var _this = this;\n        this.eventObservers = [];\n        this.trigger = function (type, data) {\n            for (var _i = 0, _a = _this.eventObservers[type].observers; _i < _a.length; _i++) {\n                var fn = _a[_i];\n                fn(data);\n            }\n        };\n        this.subScribe = function (type, fn) {\n            _this.eventObservers[type].observers.push(fn);\n        };\n        for (var i = 0; i <= 7; i++) {\n            this.eventObservers.push({ observers: [] });\n        }\n    }\n    return EventHandlerService;\n}());\nexports.EventHandlerService = EventHandlerService;\n\n\n//# sourceURL=webpack:///./scripts/services/event-handler.service.ts?");
 
 /***/ }),
 
@@ -118,7 +118,7 @@ eval("\nexports.__esModule = true;\nvar queue = document.querySelector('p#queue'
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nexports.__esModule = true;\n__webpack_require__(/*! ./draw-workflow.service */ \"./scripts/services/draw-workflow.service.ts\");\n__webpack_require__(/*! ./get-workflow.service */ \"./scripts/services/get-workflow.service.ts\");\n\n\n//# sourceURL=webpack:///./scripts/services/index.ts?");
+eval("\nexports.__esModule = true;\n__webpack_require__(/*! ./draw-workflow.service */ \"./scripts/services/draw-workflow.service.ts\");\n__webpack_require__(/*! ./event-handler.service */ \"./scripts/services/event-handler.service.ts\");\n\n\n//# sourceURL=webpack:///./scripts/services/index.ts?");
 
 /***/ })
 
