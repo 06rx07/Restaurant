@@ -1,37 +1,25 @@
 import { StaffModel } from './staff.model';
 import { IMenuItem } from './menu.model';
+import { ITableDish } from './dish.model';
 
 export class WaiterModel extends StaffModel {
-    public id: number = null;
+    public id: number;
     public name: string;
     public salary: number;
-    private static instance: WaiterModel = null;
 
-    private constructor(name: string, salary: number) {
-        super(name, salary);
+    constructor(
+        id: number,
+        name: string, 
+        salary: number
+    ) {
+        super(id, name, salary);
     }
 
-    public static getInstance(name: string, salary: number): WaiterModel {
-        if (!this.instance) {
-            this.instance = new WaiterModel(name, salary);
-        }
-        return this.instance;
-    }
-
-    public doneTask(task: any): void {
-        (Array.isArray(task)) ? this.order(task) : this.serve(task);
-    }
-
-    public order(menuItems: IMenuItem[]): Promise<IMenuItem[]> {
+    public move(moveTime: number): Promise<boolean> {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                console.log('ordered', menuItems);
-                resolve(menuItems);
-            }, 500);
+                resolve(true);
+            }, moveTime);
         });
-    }
-
-    public serve(menuItem: IMenuItem): IMenuItem {
-        return menuItem;
     }
 }

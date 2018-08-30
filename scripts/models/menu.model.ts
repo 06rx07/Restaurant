@@ -1,4 +1,4 @@
-import { IDish } from './dish.model';
+import { DishModel } from './dish.model';
 import { dishes } from '../../data/dishes.const';
 
 export interface IMenuItem {
@@ -24,7 +24,7 @@ export class MenuModel {
         return this.instance;
     }
 
-    public getMenuItem(dish: IDish): IMenuItem {
+    public getMenuItem(dish: DishModel): IMenuItem {
         return {
             name: dish.name,
             price: dish.price,

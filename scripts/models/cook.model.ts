@@ -3,31 +3,23 @@ import { StaffModel } from './staff.model';
 import { IMenuItem } from './menu.model';
 
 export class CookModel extends StaffModel {
-    public id: number = null;
+    public id: number;
     public name: string;
     public salary: number;
-    private static instance: CookModel = null;
 
-    private constructor(name: string, salary: number) {
-        super(name, salary);
+    constructor(
+        id: number, 
+        name: string, 
+        salary: number
+    ) {
+        super(id, name, salary);
     }
 
-    public static getInstance(name: string, salary: number): CookModel {
-        if (!this.instance) {
-            this.instance = new CookModel(name, salary);
-        }
-        return this.instance;
-    }
-
-    public doneTask(task: any): void {
-        this.cook(task);
-    }
-
-    public cook(menuItem: IMenuItem): Promise<IMenuItem> {
+    public cook(cookTime: number): Promise<boolean> {
         return new Promise((resolve, reject) => {
             setTimeout(()=>{
-                resolve(menuItem);
-            }, menuItem.cookTime * config.timeUnit);
+                resolve(true);
+            }, cookTime);
         });
     }
 }

@@ -2,51 +2,59 @@ import { config } from '../settings.const';
 import { dishes } from '../../data/dishes.const';
 import { IMenuItem } from "./menu.model";
 import { DrawWorkflowService } from '../services/draw-workflow.service';
+import { EventHandlerService, EventType } from '../services/event-handler.service';
+import { ITableDish } from './dish.model';
 
 export class CustomerModel {
     private orderTime = config.orderTime * config.timeUnit;
     private ordered: IMenuItem[] = [];
+    private payment: number = 0;
     public served: Promise<any> = Promise.resolve(null);
-    public drawService: DrawWorkflowService;
+    // private drawService: DrawWorkflowService;
+    private eventService: EventHandlerService;
 
     constructor(
-        drawService: DrawWorkflowService
+        // drawService: DrawWorkflowService,
+        eventService: EventHandlerService
     ) {
-        this.drawService = drawService;
+        // this.drawService = drawService;
+        this.eventService = eventService;
     }
 
     public order(): Promise<IMenuItem[]> {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 this.ordered = this.getDishes();
+                this.payment = this.ordered.map(dish => dish.price).reduce((prev, next) => prev + next);
                 resolve(this.ordered);
             }, this.orderTime);
         });
     }
 
-    public newDishServed(menuItem: IMenuItem): boolean {
-        this.eat(menuItem);
+    public newDishServed(tableDish: ITableDish): boolean {
+        this.eat(tableDish);
         return true;
     }
 
-    public eat(menuItem: IMenuItem): void {
+    public eat(tableDish: ITableDish): void {
         this.served = this.served
-            .then(() => this.drawService.moveWaiter(true))
-            .then(() => {
-                const isLastItem = this.ordered.lastIndexOf(menuItem) === this.ordered.length - 1;
-                if (!isLastItem) { this.drawService.moveWaiter(false); }
-                return true;
-            })
             .then(() => new Promise((resolve, reject) => {
-                this.drawService.showCountdown(menuItem, 'customer');
                 setTimeout(() => {
-                    resolve(menuItem);
+                    this.eatUpDish(tableDish);
+                    resolve(tableDish);
                 }, config.eatTime * config.timeUnit);
             }));
     }
 
-    public pay(): number {
-        return this.ordered.map(dish => dish.price).reduce((prev, next) => prev + next);
+    private eatUpDish(tableDish: ITableDish): void {
+        const dishIndex = this.ordered.findIndex(dish => dish.name === tableDish.name);
+        if (dishIndex > -1) {
+            let eaten = this.ordered.splice(dishIndex, 1);
+            eaten = null;
+        }
+        if(this.ordered.length === 0){
+            this.eventService.trigger(EventType.EatUp, { tableId: tableDish.tableId, payment: this.payment });
+        }
     }
 
     private getDishes(): IMenuItem[] {

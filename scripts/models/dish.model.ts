@@ -1,7 +1,8 @@
-export interface IDish {
+export interface ITableDish {
     name: string;
-    cost: number;
     price: number;
+    cookTime: number;
+    tableId: number;
 }
 
 export class DishModel {
