@@ -4,9 +4,10 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: {
+        modules: './scripts/modules/index.ts',
         services: './scripts/services/index.ts',
         models: './scripts/models/index.ts',
-        app: './scripts/index.ts'
+        app: './scripts/app.ts'
     },
     output: {
         path: _resolve('dist'),
